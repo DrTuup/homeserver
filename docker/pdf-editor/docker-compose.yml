@@ -1,0 +1,29 @@
+version: "3.3"
+
+networks:
+  homelab:
+    name: homelab
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.1.0.0/16"
+    external: true
+
+services:
+  stirling-pdf:
+    container_name: stirling-pdf
+    image: frooodle/s-pdf:latest
+    volumes:
+      - ./config/trainingData:/usr/share/tesseract-ocr/4.00/tessdata #Required for extra OCR languages
+      - ./config/extraConfigs:/configs
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+    networks:
+      homelab:
+        ipv4_address: 10.1.1.1
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pdf.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.pdf.tls=true
+      - traefik.http.routers.pdf.tls.certresolver=cloudflare
+      - traefik.http.routers.pdf.entrypoints=websecure

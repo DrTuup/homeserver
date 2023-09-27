@@ -1,0 +1,26 @@
+version: "3.3"
+
+networks:
+  homelab:
+    name: homelab
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.1.0.0/16"
+    external: true
+
+services:
+  server:
+    container_name: vaultwarden
+    image: "vaultwarden/server:latest"
+    volumes:
+      - "./config/vw-data/:/data/"
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 10.1.6.1
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vaultwarden.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.vaultwarden.tls.certresolver=cloudflare
+      - traefik.http.routers.vaultwarden.tls=true

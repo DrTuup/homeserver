@@ -1,0 +1,31 @@
+version: "3.6"
+
+networks:
+  homelab:
+    name: homelab
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.1.0.0/16"
+    external: true
+
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: "heimdall"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 10.1.2.1
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.heimdall.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.heimdall.tls=true
+      - traefik.http.routers.heimdall.tls.certresolver=cloudflare
+      - traefik.http.routers.heimdall.entrypoints=websecure
