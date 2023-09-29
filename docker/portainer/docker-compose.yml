@@ -12,7 +12,6 @@ networks:
 volumes:
   portainer_data:
     name: portainer_data
-    external: true
 
 services:
   portainer:
@@ -24,7 +23,7 @@ services:
       - "portainer_data:/data"
     networks:
       homelab:
-        ipv4_address: 10.1.4.1
+        ipv4_address: 10.1.1.1
     labels:
       - traefik.enable=true
       - traefik.http.routers.portainer.rule=Host(`${DOMAIN_NAME}`)

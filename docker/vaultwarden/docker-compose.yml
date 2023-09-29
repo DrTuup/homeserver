@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     networks:
       homelab:
-        ipv4_address: 10.1.6.1
+        ipv4_address: 10.1.4.1
     labels:
       - traefik.enable=true
       - traefik.http.routers.vaultwarden.rule=Host(`${DOMAIN_NAME}`)

@@ -20,7 +20,7 @@ services:
       - DOCKER_ENABLE_SECURITY=false
     networks:
       homelab:
-        ipv4_address: 10.1.1.1
+        ipv4_address: 10.1.5.1
     labels:
       - traefik.enable=true
       - traefik.http.routers.pdf.rule=Host(`${DOMAIN_NAME}`)
