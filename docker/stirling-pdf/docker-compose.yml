@@ -13,6 +13,7 @@ services:
   stirling-pdf:
     container_name: stirling-pdf
     image: frooodle/s-pdf:latest
+    restart: unless-stopped
     volumes:
       - ./config/trainingData:/usr/share/tesseract-ocr/4.00/tessdata #Required for extra OCR languages
       - ./config/extraConfigs:/configs
