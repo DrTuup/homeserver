@@ -20,7 +20,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-      - PEERS=${PEERS}
+      # - PEERS=${PEERS}
       - PEERDNS=10.1.7.2 # Point to pihole instance
     volumes:
       - ./config:/config
