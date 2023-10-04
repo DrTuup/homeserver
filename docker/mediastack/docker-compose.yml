@@ -130,3 +130,38 @@ services:
       - traefik.http.routers.sonarr.tls=true
       - traefik.http.routers.sonarr.tls.certresolver=cloudflare
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
+  
+  plex:
+    container_name: plex
+    ports:
+        # WebUI
+        - '32400:32400/tcp'
+        # Companion Apps
+        - '3005:3005/tcp'
+        # Plex for Roku Companion
+        # - '8324:8324/tcp'
+        # DLNA Server
+        - '32469:32469/tcp'
+        - '1900:1900/udp'
+        # Network discovery
+        - '32410:32410/udp'
+        - '32412:32412/udp'
+        - '32413:32413/udp'
+        - '32414:32414/udp'
+    networks:
+      homelab:
+        ipv4_address: 10.1.8.2
+    environment:
+        - TZ=${TZ}
+        - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+    volumes:
+        - ./config/plex:/config
+        - ./config/plex/transcode:/transcode
+        - ${DRIVE_PATH}:/media
+    image: plexinc/pms-docker
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.plex.rule=Host(`${PLEX_DOMAIN}`)
+      - traefik.http.routers.plex.tls=true
+      - traefik.http.routers.plex.tls.certresolver=cloudflare
+      - traefik.http.services.plex.loadbalancer.server.port=32400
