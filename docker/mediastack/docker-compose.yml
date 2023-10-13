@@ -32,26 +32,6 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=false
 
-  jackett:
-    image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett
-    network_mode: "service:gluetun"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - AUTO_UPDATE=true
-    volumes:
-      - ./config/jackett:/config
-      - ./config/jackett/blackhole:/downloads
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jackett.rule=Host(`${JACKETT_DOMAIN}`)
-      - traefik.http.routers.jackett.tls=true
-      - traefik.http.routers.jackett.tls.certresolver=cloudflare
-      - traefik.http.services.jackett.loadbalancer.server.port=9117
-
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -131,7 +111,7 @@ services:
         - '32414:32414/udp'
     networks:
       homelab:
-        ipv4_address: 10.1.8.2
+        ipv4_address: 10.1.8.3
     environment:
         - TZ=${TZ}
         - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
@@ -146,3 +126,44 @@ services:
       - traefik.http.routers.plex.tls=true
       - traefik.http.routers.plex.tls.certresolver=cloudflare
       - traefik.http.services.plex.loadbalancer.server.port=32400
+
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${TZ}
+    volumes:
+      - ./config/overseerr:/app/config
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 10.1.8.2
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.overseerr-rtr.rule=Host(`${OVERSEERR_DOMAIN}`)"
+      - "traefik.http.routers.overseerr-rtr.tls=true"      
+      - "traefik.http.routers.overseerr-rtr.tls.certresolver=cloudflare"
+      ## HTTP Services
+      - "traefik.http.routers.overseerr-rtr.service=overseerr-svc"
+      - "traefik.http.services.overseerr-svc.loadbalancer.server.port=5055"
+
+  prowlarr:
+    container_name: prowlarr
+    image: ghcr.io/hotio/prowlarr
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config/prowlarr:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`${PROWLARR_DOMAIN}`)
+      - traefik.http.routers.prowlarr.tls=true
+      - traefik.http.routers.prowlarr.tls.certresolver=cloudflare
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+
