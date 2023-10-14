@@ -119,6 +119,8 @@ services:
         - ./config/plex:/config
         - ./config/plex/transcode:/transcode
         - ${DRIVE_PATH}:/media
+    devices:
+      - /dev/dri:/dev/dri
     image: plexinc/pms-docker
     labels:
       - traefik.enable=true
