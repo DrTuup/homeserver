@@ -20,6 +20,10 @@ services:
     ports:
       - "6881:6881"
       - "6881:6881/udp"
+      - "8080:8080"
+      - "7878:7878"
+      - "8989:8989"
+      - "9696:9696"
     cap_add:
       - NET_ADMIN
     environment:
@@ -112,6 +116,7 @@ services:
     networks:
       homelab:
         ipv4_address: 10.1.8.3
+    restart: unless-stopped
     environment:
         - TZ=${TZ}
         - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
@@ -141,15 +146,14 @@ services:
     networks:
       homelab:
         ipv4_address: 10.1.8.2
+    ports:
+      - "5055:5055"
     labels:
       - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.overseerr-rtr.rule=Host(`${OVERSEERR_DOMAIN}`)"
-      - "traefik.http.routers.overseerr-rtr.tls=true"      
-      - "traefik.http.routers.overseerr-rtr.tls.certresolver=cloudflare"
-      ## HTTP Services
-      - "traefik.http.routers.overseerr-rtr.service=overseerr-svc"
-      - "traefik.http.services.overseerr-svc.loadbalancer.server.port=5055"
+      - "traefik.http.routers.overseerr.rule=Host(`${OVERSEERR_DOMAIN}`)"
+      - "traefik.http.routers.overseerr.tls=true"      
+      - "traefik.http.routers.overseerr.tls.certresolver=cloudflare"
+      - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
 
   prowlarr:
     container_name: prowlarr
