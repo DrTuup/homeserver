@@ -17,6 +17,7 @@ services:
     networks:
       homelab:
         ipv4_address: 10.1.8.1
+    restart: unless-stopped
     ports:
       - "6881:6881"
       - "6881:6881/udp"
