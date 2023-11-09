@@ -1,0 +1,62 @@
+---
+version: "3"
+
+networks:
+  homelab:
+    name: homelab
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.1.0.0/16"
+    external: true
+
+services:
+  server:
+    image: yooooomi/your_spotify_server
+    restart: unless-stopped
+    # ports:
+    #   - "8081:8080"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - homelab
+    environment:
+      API_ENDPOINT: ${API_ENDPOINT} # This MUST be included as a valid URL in the spotify dashboard (see below)
+      CLIENT_ENDPOINT: ${CLIENT_ENDPOINT}
+      SPOTIFY_PUBLIC: ${SPOTIFY_PUBLIC}
+      SPOTIFY_SECRET: ${SPOTIFY_SECRET}
+      CORS: ${CORS}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.spotify-api.rule=Host(`${API_URL}`)
+      - traefik.http.routers.spotify-api.tls=true
+      - traefik.http.routers.spotify-api.tls.certresolver=cloudflare
+      - traefik.http.services.spotify-api.loadbalancer.server.port=8080
+
+  web:
+    image: yooooomi/your_spotify_client
+    restart: unless-stopped
+    # ports:
+    #   - "3000:3000"
+    networks:
+      - homelab
+    environment:
+      API_ENDPOINT: ${API_ENDPOINT}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.spotify.rule=Host(`${CLIENT_URL}`)
+      - traefik.http.routers.spotify.tls=true
+      - traefik.http.routers.spotify.tls.certresolver=cloudflare
+      - traefik.http.services.spotify.loadbalancer.server.port=3000
+
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.4
+    networks:
+      - homelab
+    restart: unless-stopped
+    volumes:
+      - ./config/your_spotify_db:/data/db
