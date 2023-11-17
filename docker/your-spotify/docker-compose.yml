@@ -59,4 +59,4 @@ services:
       - homelab
     restart: unless-stopped
     volumes:
-      - ./config/your_spotify_db:/data/db
+      - ../config/your-spotify/your_spotify_db:/data/db

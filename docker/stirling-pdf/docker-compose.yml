@@ -15,8 +15,8 @@ services:
     image: frooodle/s-pdf:latest
     restart: unless-stopped
     volumes:
-      - ./config/trainingData:/usr/share/tesseract-ocr/4.00/tessdata #Required for extra OCR languages
-      - ./config/extraConfigs:/configs
+      - ../config/stirling-pdf/trainingData:/usr/share/tesseract-ocr/4.00/tessdata #Required for extra OCR languages
+      - ../config/stirling-pdf/extraConfigs:/configs
     environment:
       - DOCKER_ENABLE_SECURITY=false
     networks:

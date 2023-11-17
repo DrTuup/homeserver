@@ -15,9 +15,9 @@ services:
     image: ghcr.io/ajnart/homarr:latest
     restart: unless-stopped
     volumes:
-      - ./config/configs:/app/data/configs
-      - ./config/icons:/app/public/icons
-      - ./config/data:/
+      - ../homarr/config/configs:/app/data/configs
+      - ../homarr/config/icons:/app/public/icons
+      - ../homarr/config/data:/
     networks:
       homelab:
         ipv4_address: 10.1.3.1
