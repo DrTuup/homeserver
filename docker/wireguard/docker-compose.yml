@@ -23,7 +23,7 @@ services:
       # - PEERS=${PEERS}
       - PEERDNS=10.1.7.2 # Point to pihole instance
     volumes:
-      - ./config:/config
+      - ../config/wireguard:/config
     ports:
       - 51820:51820/udp
     sysctls:

@@ -38,8 +38,8 @@ services:
       WEBPASSWORD: "${WEBPASSWORD}"
       QUERY_LOGGING: false
     volumes:
-      - "./config/pihole:/etc/pihole"
-      - "./config/dnsmasq.d:/etc/dnsmasq.d"
+      - "../config/pihole-unbound/pihole:/etc/pihole"
+      - "../config/pihole-unbound/dnsmasq.d:/etc/dnsmasq.d"
     restart: unless-stopped
     labels:
       - traefik.enable=true
