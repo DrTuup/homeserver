@@ -33,7 +33,7 @@ services:
       - OPENVPN_PASSWORD=${VPN_PASSWORD}
       - SERVER_HOSTNAMES=${VPN_HOSTNAMES}
     volumes:
-      - ./config/gluetun:/gluetun
+      - ../config/mediastack/gluetun:/gluetun
     labels:
       - com.centurylinklabs.watchtower.enable=false
 
@@ -47,7 +47,7 @@ services:
       - TZ=${TZ}
       - WEBUI_PORT=8080
     volumes:
-      - ./config/qbittorrent:/config
+      - ../config/mediastack/qbittorrent:/config
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
     labels:
@@ -66,7 +66,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ./config/radarr:/config
+      - ../config/mediastack/radarr:/config
       - ${DRIVE_PATH}:/nas
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
@@ -86,7 +86,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ./config/sonarr:/config
+      - ../config/mediastack/sonarr:/config
       - ${DRIVE_PATH}:/nas
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
@@ -122,8 +122,8 @@ services:
         - TZ=${TZ}
         - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
     volumes:
-        - ./config/plex:/config
-        - ./config/plex/transcode:/transcode
+        - ../config/mediastack/plex:/config
+        - ../config/mediastack/plex/transcode:/transcode
         - ${DRIVE_PATH}:/media
     devices:
       - /dev/dri:/dev/dri
@@ -142,7 +142,7 @@ services:
       - LOG_LEVEL=debug
       - TZ=${TZ}
     volumes:
-      - ./config/overseerr:/app/config
+      - ../config/mediastack/overseerr:/app/config
     restart: unless-stopped
     networks:
       homelab:
@@ -166,7 +166,7 @@ services:
       - UMASK=002
       - TZ=Europe/Amsterdam
     volumes:
-      - ./config/prowlarr:/config
+      - ../config/mediastack/prowlarr:/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=Host(`${PROWLARR_DOMAIN}`)

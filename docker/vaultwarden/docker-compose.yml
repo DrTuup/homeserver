@@ -14,7 +14,7 @@ services:
     container_name: vaultwarden
     image: "vaultwarden/server:latest"
     volumes:
-      - "./config/vw-data/:/data/"
+      - "../config/vaultwarden/vw-data/:/data/"
     restart: unless-stopped
     networks:
       homelab:
