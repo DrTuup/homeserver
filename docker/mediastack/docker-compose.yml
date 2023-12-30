@@ -25,6 +25,7 @@ services:
       - "7878:7878"
       - "8989:8989"
       - "9696:9696"
+      - "8191:8191"
     cap_add:
       - NET_ADMIN
     environment:
@@ -38,7 +39,7 @@ services:
       - com.centurylinklabs.watchtower.enable=false
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:4.6.0
     container_name: qbittorrent
     network_mode: "service:gluetun"
     environment:
@@ -174,3 +175,10 @@ services:
       - traefik.http.routers.prowlarr.tls.certresolver=cloudflare
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
 
+  flaresolverr:
+    container_name: flaresolverr
+    network_mode: "service:gluetun"
+    environment:
+        - LOG_LEVEL=info
+    restart: unless-stopped
+    image: ghcr.io/flaresolverr/flaresolverr:latest
