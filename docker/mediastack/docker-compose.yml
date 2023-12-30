@@ -38,7 +38,7 @@ services:
       - com.centurylinklabs.watchtower.enable=false
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:4.6.0
     container_name: qbittorrent
     network_mode: "service:gluetun"
     environment:

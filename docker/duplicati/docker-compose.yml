@@ -12,5 +12,5 @@ services:
       - ../config/duplicati/backups:/backups
       - ${DOCKER_CONFIG_PATH}:/docker-configs
     ports:
-      - 8200:8200
+      - 8201:8200
     restart: unless-stopped
