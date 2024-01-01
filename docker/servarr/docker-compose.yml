@@ -8,6 +8,7 @@ networks:
       driver: default
       config:
         - subnet: "10.1.0.0/16"
+    external: true
 
 volumes:
   gluetun:
