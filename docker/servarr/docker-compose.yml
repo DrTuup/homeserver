@@ -8,7 +8,15 @@ networks:
       driver: default
       config:
         - subnet: "10.1.0.0/16"
-    external: true
+
+volumes:
+  gluetun:
+  qbittorrent:
+  radarr:
+  sonarr:
+  plex:
+  overseerr:
+  prowlarr:
 
 services:
   gluetun:
@@ -34,7 +42,7 @@ services:
       - OPENVPN_PASSWORD=${VPN_PASSWORD}
       - SERVER_HOSTNAMES=${VPN_HOSTNAMES}
     volumes:
-      - ../config/mediastack/gluetun:/gluetun
+      - gluetun:/gluetun
     labels:
       - com.centurylinklabs.watchtower.enable=false
 
@@ -48,7 +56,7 @@ services:
       - TZ=${TZ}
       - WEBUI_PORT=8080
     volumes:
-      - ../config/mediastack/qbittorrent:/config
+      - qbittorrent:/config
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
     labels:
@@ -67,7 +75,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ../config/mediastack/radarr:/config
+      - radarr:/config
       - ${DRIVE_PATH}:/nas
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
@@ -87,7 +95,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ../config/mediastack/sonarr:/config
+      - sonarr:/config
       - ${DRIVE_PATH}:/nas
       - ${DRIVE_PATH}/Downloads:/downloads
     restart: unless-stopped
@@ -97,35 +105,35 @@ services:
       - traefik.http.routers.sonarr.tls=true
       - traefik.http.routers.sonarr.tls.certresolver=cloudflare
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
-  
+
   plex:
     container_name: plex
     ports:
-        # WebUI
-        - '32400:32400/tcp'
-        # Companion Apps
-        - '3005:3005/tcp'
-        # Plex for Roku Companion
-        # - '8324:8324/tcp'
-        # DLNA Server
-        # - '32469:32469/tcp'
-        # - '1900:1900/udp'
-        # Network discovery
-        - '32410:32410/udp'
-        - '32412:32412/udp'
-        - '32413:32413/udp'
-        - '32414:32414/udp'
+      # WebUI
+      - "32400:32400/tcp"
+      # Companion Apps
+      - "3005:3005/tcp"
+      # Plex for Roku Companion
+      # - '8324:8324/tcp'
+      # DLNA Server
+      # - '32469:32469/tcp'
+      # - '1900:1900/udp'
+      # Network discovery
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
     networks:
       homelab:
         ipv4_address: 10.1.8.3
     restart: unless-stopped
     environment:
-        - TZ=${TZ}
-        - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - TZ=${TZ}
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
     volumes:
-        - ../config/mediastack/plex:/config
-        - ../config/mediastack/plex/transcode:/transcode
-        - ${DRIVE_PATH}:/media
+      - plex:/config
+      - ./transcode:/transcode
+      - ${DRIVE_PATH}:/media
     devices:
       - /dev/dri:/dev/dri
     image: plexinc/pms-docker
@@ -143,7 +151,7 @@ services:
       - LOG_LEVEL=debug
       - TZ=${TZ}
     volumes:
-      - ../config/mediastack/overseerr:/app/config
+      - overseerr:/app/config
     restart: unless-stopped
     networks:
       homelab:
@@ -153,7 +161,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.overseerr.rule=Host(`${OVERSEERR_DOMAIN}`)"
-      - "traefik.http.routers.overseerr.tls=true"      
+      - "traefik.http.routers.overseerr.tls=true"
       - "traefik.http.routers.overseerr.tls.certresolver=cloudflare"
       - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
 
@@ -167,7 +175,7 @@ services:
       - UMASK=002
       - TZ=Europe/Amsterdam
     volumes:
-      - ../config/mediastack/prowlarr:/config
+      - prowlarr:/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=Host(`${PROWLARR_DOMAIN}`)
@@ -179,6 +187,6 @@ services:
     container_name: flaresolverr
     network_mode: "service:gluetun"
     environment:
-        - LOG_LEVEL=info
+      - LOG_LEVEL=info
     restart: unless-stopped
     image: ghcr.io/flaresolverr/flaresolverr:latest
