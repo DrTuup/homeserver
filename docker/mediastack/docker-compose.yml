@@ -183,9 +183,9 @@ services:
       - traefik.http.routers.prowlarr.tls=true
       - traefik.http.routers.prowlarr.tls.certresolver=cloudflare
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+    restart: unless-stopped
     depends_on:
       - gluetun
-
 
   flaresolverr:
     container_name: flaresolverr
