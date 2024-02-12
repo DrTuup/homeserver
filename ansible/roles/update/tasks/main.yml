@@ -1,7 +1,11 @@
 ---
-- name: Update and upgrade packages
+- name: Update packages
   become: true
   apt:
     autoclean: true
     autoremove: true
+
+- name: Upgrade packages
+  become: true
+  apt:
     upgrade: true
