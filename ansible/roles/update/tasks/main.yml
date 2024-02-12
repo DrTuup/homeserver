@@ -1,11 +1,10 @@
 ---
-- name: Update packages
-  become: true
+- name: Update APT package cache
   apt:
-    autoclean: true
-    autoremove: true
+    update_cache: yes
 
 - name: Upgrade packages
-  become: true
   apt:
-    upgrade: true
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
