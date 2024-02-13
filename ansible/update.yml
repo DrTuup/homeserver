@@ -1,4 +1,5 @@
 ---
-- hosts: all
+- name: Update all packages on all hosts
+  hosts: all
   roles:
     - update
