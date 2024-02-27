@@ -10,25 +10,33 @@ networks:
     external: true
 
 services:  
-  wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
-    container_name: wireguard
+  wg-easy:
+    container_name: wg-easy
+    image: ghcr.io/wg-easy/wg-easy
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      # - PEERS=${PEERS}
-      - PEERDNS=10.1.7.2 # Point to pihole instance
+        - LANG=en
+        - WG_HOST=${WG_HOST}
+        - PASSWORD=${ADMIN_PASSWORD}
+        - WG_DEFAULT_DNS=10.1.7.2
     volumes:
-      - ../config/wireguard:/config
+      - ../config/wg-easy:/etc/wireguard
     ports:
-      - 51820:51820/udp
+        - 51820:51820/udp
+        - 51821:51821/tcp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
     restart: unless-stopped
     networks:
       homelab:
         ipv4_address: 10.1.8.1
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wg-easy.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.wg-easy.tls.certresolver=cloudflare
+      - traefik.http.routers.wg-easy.tls=true
+      - traefik.http.services.wg-easy.loadbalancer.server.port=51821
+
