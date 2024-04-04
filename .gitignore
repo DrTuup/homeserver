@@ -1,4 +1,15 @@
+# Docker container configuration
 config/
+
+# Mac files
 .DS_Store
+
+# Environment variables
 .env
+
+# Editor configuration
 .vscode/
+
+# Terraform files
+terraform.tfstate*
+.terraform/
