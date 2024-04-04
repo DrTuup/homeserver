@@ -1,4 +1,4 @@
-resource "cloudflare_record" "terraform_managed_resource_3ebcb45f4c3bef8310ba64f2a3f45d1f" {
+resource "cloudflare_record" "portfolio" {
   name    = "rubenclaessens.nl"
   proxied = true
   ttl     = 1
@@ -7,7 +7,7 @@ resource "cloudflare_record" "terraform_managed_resource_3ebcb45f4c3bef8310ba64f
   zone_id = "568a460892921afa99c22339c47da5b2"
 }
 
-resource "cloudflare_record" "terraform_managed_resource_ec80dc7e413ad30c6c2341283202211b" {
+resource "cloudflare_record" "datavisualization" {
   name    = "dataviz"
   proxied = true
   ttl     = 1
@@ -16,7 +16,7 @@ resource "cloudflare_record" "terraform_managed_resource_ec80dc7e413ad30c6c23412
   zone_id = "568a460892921afa99c22339c47da5b2"
 }
 
-resource "cloudflare_record" "terraform_managed_resource_b507006b5104c52cd4bb041c1c623936" {
+resource "cloudflare_record" "overseerr" {
   name    = "overseerr"
   proxied = true
   ttl     = 1
@@ -25,7 +25,7 @@ resource "cloudflare_record" "terraform_managed_resource_b507006b5104c52cd4bb041
   zone_id = "568a460892921afa99c22339c47da5b2"
 }
 
-resource "cloudflare_record" "terraform_managed_resource_9384f698b6dc47b3b9352cc5108a9133" {
+resource "cloudflare_record" "www_portfolio" {
   name    = "www"
   proxied = true
   ttl     = 1
