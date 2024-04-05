@@ -15,10 +15,10 @@ resource "cloudflare_tunnel_config" "example_config" {
 
   config {
     ingress_rule {
-      hostname = "overseerr.${var.cloudflare_zone_name}"
+      hostname = "https://overseerr.${var.cloudflare_zone_name}"
       service  = "http://192.168.1.20"
       origin_request {
-        no_tls_verify = false
+        no_tls_verify = true
       }
     }
     ingress_rule {
