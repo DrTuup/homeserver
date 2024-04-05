@@ -4,6 +4,9 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "4.29.0"
     }
+    random = {
+      source = "hashicorp/random"
+    }
   }
 
   cloud {
@@ -17,4 +20,7 @@ terraform {
 
 
 provider "cloudflare" {
+}
+
+provider "random" {
 }
