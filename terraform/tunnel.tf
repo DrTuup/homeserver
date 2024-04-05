@@ -1,6 +1,5 @@
 resource "random_password" "tunnel_secret" {
-  length  = 64
-  special = true
+  length = 64
 }
 
 resource "cloudflare_tunnel" "hydro" {
