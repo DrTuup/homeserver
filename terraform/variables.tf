@@ -7,7 +7,7 @@ variable "cloudflare_zone_id" {
 variable "cloudflare_account_id" {
   description = "The ID of the Cloudflare account to use"
   type        = string
-  default     = "f037e56e89293a057740de681ac9abbe"
+  default     = "82f3291714701b7bcca7a80429e92f8c"
 }
 
 variable "cloudflare_zone_name" {

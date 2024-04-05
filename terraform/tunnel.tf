@@ -5,8 +5,8 @@ resource "random_password" "tunnel_secret" {
 
 resource "cloudflare_tunnel" "hydro" {
   account_id = var.cloudflare_account_id
-  name       = "example_tunnel"
-  secret     = random_password.tunnel_secret.result
+  name       = "hydro"
+  secret     = base64sha256(random_password.tunnel_secret.result)
 }
 
 resource "cloudflare_tunnel_config" "example_config" {
