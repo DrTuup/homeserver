@@ -1,10 +1,11 @@
 resource "random_password" "tunnel_secret" {
-  length = 64
+  length  = 64
+  special = true
 }
 
 resource "cloudflare_tunnel" "hydro" {
   account_id = var.cloudflare_account_id
-  name       = "example_tunnel"
+  name       = "hydro"
   secret     = random_password.tunnel_secret.result
 }
 
