@@ -1,5 +1,3 @@
-version: "3.6"
-
 networks:
   homelab:
     name: homelab
@@ -16,16 +14,32 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+    command:
+      - "--global.checknewversion=true"
+      - "--global.sendanonymoususage=false"
+      - "--api.dashboard=false"
+      - "--api.insecure=false"
+      - "--entrypoints.web"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL}"
+      - "--certificatesresolvers.cloudflare.acme.storage=acme.json"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53, 1.0.0.1:53"
+      - "--providers.docker.exposedbydefault=false"
     ports:
       - 80:80
       - 443:443
     environment:
       - CLOUDFLARE_EMAIL=${CLOUDFLARE_EMAIL}
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
-      - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN}
+      - CF_DNS_API_TOKEN=${CF_API_TOKEN}
+      - CF_ZONE_API_TOKEN=${CF_API_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ../config/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
     networks:
       homelab:
         ipv4_address: 10.1.2.1
