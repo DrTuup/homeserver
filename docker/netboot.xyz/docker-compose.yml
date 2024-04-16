@@ -1,8 +1,14 @@
----
+networks:
+  proxy:
+    name: proxy
+    external: true
+
 services:
   netbootxyz:
     image: lscr.io/linuxserver/netbootxyz:latest
     container_name: netbootxyz
+    networks:
+      - proxy
     environment:
       - PUID=1000
       - PGID=1000
@@ -11,6 +17,11 @@ services:
       - ../config/netboot.xyz/config:/config
       - ../config/netboot.xyz/assets:/assets
     ports:
-      - 3000:3000 # Web UI
       - 69:69/udp # TFTP Server
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.netbootxyz.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.netbootxyz.tls=true
+      - traefik.http.routers.netbootxyz.tls.certresolver=cloudflare
+      - traefik.http.services.netbootxyz.loadbalancer.server.port=3000

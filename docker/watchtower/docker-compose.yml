@@ -1,12 +1,6 @@
-version: "3.6"
-
 networks:
-  homelab:
-    name: homelab
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.1.0.0/16"
+  proxy:
+    name: proxy
     external: true
 
 services:
@@ -14,13 +8,11 @@ services:
     image: containrrr/watchtower
     container_name: watchtower
     networks:
-      homelab:
-        ipv4_address: 10.1.6.1
+      - proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=${TZ}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
-
     restart: unless-stopped

@@ -1,13 +1,6 @@
----
-version: "3"
-
 networks:
-  homelab:
-    name: homelab
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.1.0.0/16"
+  proxy:
+    name: proxy
     external: true
 
 services:
@@ -15,8 +8,7 @@ services:
     container_name: gluetun
     image: qmcgaw/gluetun
     networks:
-      homelab:
-        ipv4_address: 10.1.8.1
+      - proxy
     restart: unless-stopped
     ports:
       - "6881:6881"
@@ -82,7 +74,6 @@ services:
     depends_on:
       - gluetun
 
-
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -105,7 +96,6 @@ services:
     depends_on:
       - gluetun
 
-  
   plex:
     container_name: plex
     ports:
@@ -124,8 +114,7 @@ services:
         - '32413:32413/udp'
         - '32414:32414/udp'
     networks:
-      homelab:
-        ipv4_address: 10.1.8.3
+      - proxy
     restart: unless-stopped
     environment:
         - TZ=${TZ}
@@ -155,8 +144,7 @@ services:
       - ../config/mediastack/overseerr:/app/config
     restart: unless-stopped
     networks:
-      homelab:
-        ipv4_address: 10.1.8.2
+      - proxy
     ports:
       - "5055:5055"
     labels:

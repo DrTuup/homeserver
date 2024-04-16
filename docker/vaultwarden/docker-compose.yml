@@ -1,12 +1,6 @@
-version: "3.3"
-
 networks:
-  homelab:
-    name: homelab
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.1.0.0/16"
+  proxy:
+    name: proxy
     external: true
 
 services:
@@ -17,8 +11,7 @@ services:
       - "../config/vaultwarden/vw-data/:/data/"
     restart: unless-stopped
     networks:
-      homelab:
-        ipv4_address: 10.1.4.1
+      - proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.vaultwarden.rule=Host(`${DOMAIN_NAME}`)
