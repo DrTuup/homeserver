@@ -1,4 +1,3 @@
----
 services:
   netbootxyz:
     image: lscr.io/linuxserver/netbootxyz:latest
