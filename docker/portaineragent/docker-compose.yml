@@ -1,7 +1,6 @@
 services:
   agent:
-    ports:
-      - '9001:9001'
+    network_mode: host
     container_name: portainer_agent
     restart: unless-stopped
     volumes:

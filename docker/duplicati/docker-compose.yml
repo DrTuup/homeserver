@@ -2,6 +2,7 @@ services:
   duplicati:
     image: lscr.io/linuxserver/duplicati:latest
     container_name: duplicati
+    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
@@ -10,6 +11,4 @@ services:
       - ../config/duplicati/config:/config
       - ../config/duplicati/backups:/backups
       - ${DOCKER_CONFIG_PATH}:/docker-configs
-    ports:
-      - 8201:8200
     restart: unless-stopped
