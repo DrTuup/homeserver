@@ -12,7 +12,7 @@ resource "cloudflare_record" "datavisualization" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  value   = "drtuup.github.io"
+  value   = "zm005-2023b3.github.io"
   zone_id = var.cloudflare_zone_id
 }
 
