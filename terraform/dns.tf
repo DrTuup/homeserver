@@ -7,16 +7,6 @@ resource "cloudflare_record" "portfolio" {
   zone_id = var.cloudflare_zone_id
 }
 
-resource "cloudflare_record" "datavisualization" {
-  name    = "dataviz"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  value   = "zm005-2023b3.github.io"
-  zone_id = var.cloudflare_zone_id
-}
-
-
 resource "cloudflare_record" "www_portfolio" {
   name    = "www"
   proxied = true
