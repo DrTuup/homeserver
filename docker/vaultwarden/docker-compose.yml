@@ -8,8 +8,14 @@ services:
     container_name: vaultwarden
     image: "vaultwarden/server:latest"
     volumes:
-      - "../config/vaultwarden/vw-data/:/data/"
+      - "../config/vaultwarden/:/data"
+      - "../config/vaultwarden/logs:/data/logs"
     restart: unless-stopped
+    environment:
+      - DOMAIN=https://${DOMAIN_NAME}
+      - SIGNUPS_ALLOWED=${SIGNUPS_ALLOWED}
+      - LOG_FILE=/data/logs/access.log
+      - WEB_VAULT_ENABLED=${WEB_VAULT_ENABLED}
     networks:
       - proxy
     labels:
