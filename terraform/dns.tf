@@ -24,13 +24,3 @@ resource "cloudflare_record" "overseerr" {
   value   = cloudflare_tunnel.hydro.cname
   zone_id = var.cloudflare_zone_id
 }
-
-resource "cloudflare_record" "vaultwarden" {
-  name    = "vaultwarden"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  value   = cloudflare_tunnel.hydro.cname
-  zone_id = var.cloudflare_zone_id
-}
-
