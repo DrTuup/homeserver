@@ -16,6 +16,8 @@ services:
       - "portainer_data:/data"
     networks:
       - proxy
+    ports:
+      - "9443:9443"
     labels:
       - traefik.enable=true
       - traefik.http.routers.portainer.rule=Host(`${DOMAIN_NAME}`)
