@@ -6,9 +6,9 @@ resource "cloudflare_ruleset" "vaultwarden_geoblock" {
   phase       = "http_request_firewall_custom"
 
   rules {
-    action = "block"
-    expression = "(ip.geoip.country ne \"NL\" and http.host eq \"vaultwarden.rubenclaessens.nl\")"
+    action      = "block"
+    expression  = "(ip.geoip.country ne \"NL\" and http.host eq \"vaultwarden.rubenclaessens.nl\")"
     description = "Block every country except NL when visiting vaultwarden.rubenclaessens.nl"
-    enabled = true
+    enabled     = true
   }
 }
