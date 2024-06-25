@@ -8,7 +8,7 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
   rules {
     action      = "block"
     description = "Block overseerr requests from outside the Netherlands"
-    expression  = "(http.request.full_uri contains {\"overseerr.rubenclaessens.nl\"} and not ip.geoip.country in {\"NL\"})"
+    expression  = "(http.request.full_uri contains \"overseerr.rubenclaessens.nl\" and ip.geoip.country ne \"NL\")"
     enabled     = true
   }
 }
