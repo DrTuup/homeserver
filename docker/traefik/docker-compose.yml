@@ -1,6 +1,6 @@
 networks:
   proxy:
-   name: proxy
+    name: proxy
 
 services:
   traefik:
@@ -22,7 +22,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.cloudflare"
       - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL}"
-      - "--certificatesresolvers.cloudflare.acme.storage=acme.json"
+      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53, 1.0.0.1:53"
       - "--providers.docker.exposedbydefault=false"
@@ -34,6 +34,7 @@ services:
       - CF_DNS_API_TOKEN=${CF_API_TOKEN}
       - CF_ZONE_API_TOKEN=${CF_API_TOKEN}
     volumes:
+      - ${CONFIG_PATH}:/letsencrypt:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy
