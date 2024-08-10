@@ -13,6 +13,7 @@ services:
     networks:
       proxy:
 
+
   pihole:
     container_name: pihole
     hostname: pihole
@@ -22,6 +23,7 @@ services:
       - "53:53/udp"
     networks:
       proxy:
+        ipv4_address: 172.19.0.5
     environment:
       TZ: "${TZ}"
       DNSSEC: false
