@@ -8,7 +8,8 @@ services:
     image: lscr.io/linuxserver/netbootxyz:latest
     container_name: netbootxyz
     networks:
-      - proxy
+      proxy:
+        ipv4_address: 10.0.0.60
     environment:
       - PUID=1000
       - PGID=1000

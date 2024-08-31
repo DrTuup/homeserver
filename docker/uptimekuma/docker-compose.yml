@@ -6,7 +6,8 @@ services:
       - uptime-kuma:/app/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - proxy
+      proxy:
+        ipv4_address: 10.0.0.70
     restart: unless-stopped
     labels:
       - traefik.enable=true

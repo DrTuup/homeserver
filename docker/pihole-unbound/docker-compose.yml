@@ -12,7 +12,7 @@ services:
       - "../config/pihole-unbound:/opt/unbound/etc/unbound/unbound.log"
     networks:
       proxy:
-
+        ipv4_address: 10.0.0.30
 
   pihole:
     container_name: pihole
@@ -23,7 +23,7 @@ services:
       - "53:53/udp"
     networks:
       proxy:
-        ipv4_address: 172.19.0.5
+        ipv4_address: 10.0.0.20
     environment:
       TZ: "${TZ}"
       DNSSEC: false

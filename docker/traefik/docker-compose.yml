@@ -1,6 +1,9 @@
 networks:
   proxy:
     name: proxy
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
 
 services:
   traefik:
@@ -37,4 +40,5 @@ services:
       - ${CONFIG_PATH}:/letsencrypt:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - proxy
+      proxy:
+        ipv4_address: 10.0.0.10
