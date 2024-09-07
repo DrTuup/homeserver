@@ -2,6 +2,16 @@ networks:
   proxy:
     name: proxy
     external: true
+  plexnet:
+    name: plexnet
+    driver: macvlan
+    driver_opts:
+      parent: bond0
+    ipam:
+      config:
+        - subnet: "192.168.1.0/24"
+          ip_range: "192.168.1.200/32"
+          gateway: "192.168.1.1"
 
 services:
   gluetun:
@@ -101,28 +111,15 @@ services:
 
   plex:
     container_name: plex
-    ports:
-      # WebUI
-      - "32400:32400/tcp"
-      # Companion Apps
-      - "3005:3005/tcp"
-      # Plex for Roku Companion
-      # - '8324:8324/tcp'
-      # DLNA Server
-      # - '32469:32469/tcp'
-      # - '1900:1900/udp'
-      # Network discovery
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
+    hostname: plex
     networks:
-      - proxy
+      plexnet:
+        ipv4_address: 192.168.1.200
     restart: unless-stopped
     environment:
       - TZ=${TZ}
       - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
-      - ADVERTISE_IP="http://192.168.1.20:32400/"
+      - ADVERTISE_IP="http://192.168.1.200:32400/"
     volumes:
       - ../config/mediastack/plex:/config
       - ../config/mediastack/plex/transcode:/transcode
@@ -130,12 +127,6 @@ services:
     devices:
       - /dev/dri:/dev/dri
     image: plexinc/pms-docker
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`${PLEX_DOMAIN}`)
-      - traefik.http.routers.plex.tls=true
-      - traefik.http.routers.plex.tls.certresolver=cloudflare
-      - traefik.http.services.plex.loadbalancer.server.port=32400
 
   overseerr:
     image: sctx/overseerr:latest
