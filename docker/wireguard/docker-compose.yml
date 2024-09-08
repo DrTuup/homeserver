@@ -13,7 +13,7 @@ services:
     environment:
       LANG: en
       WG_HOST: ${WG_HOST}
-      PASSWORD: ${ADMIN_PASSWORD}
+      PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
       WG_DEFAULT_DNS: 10.0.0.20
     volumes:
       - ../config/wg-easy:/etc/wireguard
