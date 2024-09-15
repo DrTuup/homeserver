@@ -1,0 +1,19 @@
+networks:
+  proxy:
+    name: proxy
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+    external: true
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ../config/home-assistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
