@@ -21,13 +21,14 @@ services:
       - proxy
     restart: unless-stopped
     ports:
-      - "6881:6881"
+      - "6881:6881/tcp"
       - "6881:6881/udp"
       - "8080:8080"
       - "7878:7878"
       - "8989:8989"
       - "9696:9696"
       - "8191:8191"
+      - "6878:6878"
     cap_add:
       - NET_ADMIN
     environment:
@@ -180,3 +181,10 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
+
+  acelink:
+    container_name: acelink
+    image: blaiseio/acelink
+    platform: linux/amd64
+    network_mode: "service:gluetun"
+    restart: unless-stopped
