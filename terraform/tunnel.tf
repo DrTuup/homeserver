@@ -23,6 +23,14 @@ resource "cloudflare_tunnel_config" "example_config" {
     }
 
     ingress_rule {
+      hostname = "homeassistant.${var.cloudflare_zone_name}"
+      service  = "https://192.168.1.30"
+      origin_request {
+        no_tls_verify = true
+      }
+    }
+
+    ingress_rule {
       service = "http_status:404"
     }
   }
