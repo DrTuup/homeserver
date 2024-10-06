@@ -1,0 +1,45 @@
+networks:
+  proxy:
+    name: proxy
+    external: true
+
+services:
+  ddns-updater:
+    image: qmcgaw/ddns-updater
+    container_name: ddns-updater
+    networks:
+      - proxy
+    volumes:
+      - ../config/ddns-updater:/updater/data
+    environment:
+      - CONFIG=
+      - PERIOD=5m
+      - UPDATE_COOLDOWN_PERIOD=5m
+      - PUBLICIP_FETCHERS=all
+      - PUBLICIP_HTTP_PROVIDERS=all
+      - PUBLICIPV4_HTTP_PROVIDERS=all
+      - PUBLICIPV6_HTTP_PROVIDERS=all
+      - PUBLICIP_DNS_PROVIDERS=all
+      - PUBLICIP_DNS_TIMEOUT=3s
+      - HTTP_TIMEOUT=10s
+
+      # Web UI
+      - LISTENING_ADDRESS=:8000
+      - ROOT_URL=/
+
+      # Backup
+      - BACKUP_PERIOD=0 # 0 to disable
+      - BACKUP_DIRECTORY=/updater/data
+
+      # Other
+      - LOG_LEVEL=info
+      - LOG_CALLER=hidden
+      - SHOUTRRR_ADDRESSES=
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ddns.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.ddns.tls=true
+      - traefik.http.routers.ddns.tls.certresolver=cloudflare
+      - traefik.http.routers.ddns.entrypoints=websecure
+      - traefik.http.services.ddns.loadbalancer.server.port=8000
