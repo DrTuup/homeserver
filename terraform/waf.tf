@@ -5,6 +5,7 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
+
   rules {
     action      = "block"
     description = "Block requests from outside the Netherlands"
