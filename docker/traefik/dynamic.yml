@@ -1,13 +1,14 @@
 http:
-  services:
-    homeassistant:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.30:8123/
-
   routers:
-    homeassistant:
+    homeassistant-rtr:
+      rule: "Host(`homeassistant.rubenclaessens.nl`)"
       entryPoints:
         - websecure
-      rule: 'Host(`homeassistant.rubenclaessens.nl`)'
-      service: homeassistant
+      service: homeassistant-svc
+      tls:
+        certResolver: cloudflare
+  services:
+    homeassistant-svc:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.30:8123"
