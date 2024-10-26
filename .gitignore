@@ -13,3 +13,6 @@ config/
 # Terraform files
 terraform.tfstate*
 .terraform/
+
+# Certificates
+certs/
