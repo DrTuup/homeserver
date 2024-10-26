@@ -5,10 +5,11 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
-  rules {
+
+  rules = [{
     action      = "block"
     description = "Block requests from outside the Netherlands"
     expression  = "(http.request.full_uri contains \"overseerr.rubenclaessens.nl\" or http.request.full_uri contains \"homeassistant.rubenclaessens.nl\") and ip.geoip.country ne \"NL\""
     enabled     = true
-  }
+  }]
 }
