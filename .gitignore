@@ -16,3 +16,6 @@ terraform.tfstate*
 
 # Certificates
 certs/
+
+# Traefik dynamic configuration file
+dynamic.yml
