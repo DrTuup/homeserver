@@ -26,11 +26,11 @@ services:
       # Volume for letsencypt acme
       - letsencrypt:/letsencrypt:rw
       # Configuration file
-      - .:/etc/traefik
+      - ${CONFIG_PATH}:/etc/traefik
       # Reading the docker sock for configuring services
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # Dynamic configuration file
-      - ./dynamic.yml:/config/dynamic.yml
+      - ${CONFIG_PATH}/dynamic.yml:/config/dynamic.yml
     networks:
       proxy:
         ipv4_address: 10.0.0.10

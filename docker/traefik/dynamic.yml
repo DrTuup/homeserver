@@ -7,8 +7,19 @@ http:
       service: homeassistant-svc
       tls:
         certResolver: cloudflare
+    homebridge-rtr:
+      rule: "Host(`homebridge.rubenclaessens.nl`)"
+      entryPoints:
+        - websecure
+      service: homebridge-svc
+      tls:
+        certResolver: cloudflare
   services:
     homeassistant-svc:
       loadBalancer:
         servers:
           - url: "http://192.168.1.30:8123"
+    homebridge-svc:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.30:8581"
