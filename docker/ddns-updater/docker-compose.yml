@@ -10,7 +10,7 @@ services:
     networks:
       - proxy
     volumes:
-      - ../config/ddns-updater:/updater/data
+      - ${CONFIG_DIR}/ddns-updater:/updater/data
     environment:
       - CONFIG=
       - PERIOD=5m
