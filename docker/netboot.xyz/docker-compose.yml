@@ -15,8 +15,8 @@ services:
       - PGID=1000
       - TZ=Europe/Amsterdam
     volumes:
-      - ../config/netboot.xyz/config:/config
-      - ../config/netboot.xyz/assets:/assets
+      - ${CONFIG_DIR}/netboot.xyz/config:/config
+      - ${CONFIG_DIR}/netboot.xyz/assets:/assets
     ports:
       - 69:69/udp # TFTP Server
     restart: unless-stopped
