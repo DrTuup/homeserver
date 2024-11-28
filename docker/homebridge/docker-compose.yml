@@ -4,7 +4,7 @@ services:
     image: homebridge/homebridge:latest
     restart: unless-stopped
     volumes:
-      - ../config/homebridge:/homebridge
+      - ${CONFIG_DIR}/homebridge:/homebridge
     network_mode: host
     logging:
       driver: json-file
