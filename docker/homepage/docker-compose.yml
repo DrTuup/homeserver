@@ -14,7 +14,7 @@ services:
       proxy:
         ipv4_address: 10.0.0.50
     volumes:
-      - ../config/homepage:/app/config
+      - ${CONFIG_DIR}/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker integration
     restart: unless-stopped
     labels:
