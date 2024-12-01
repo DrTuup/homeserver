@@ -55,4 +55,4 @@ services:
       - proxy
     restart: unless-stopped
     volumes:
-      - ../config/your-spotify/your_spotify_db:/data/db
+      - ${CONFIG_DIR}/your-spotify:/data/db
