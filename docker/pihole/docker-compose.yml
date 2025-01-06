@@ -9,22 +9,11 @@ volumes:
   unbound:
 
 services:
-  unbound:
-    container_name: unbound
-    restart: unless-stopped
-    image: "${IMAGE}:latest"
-    volumes:
-      - "unbound:/etc/unbound"
-    networks:
-      proxy:
-        ipv4_address: 10.0.0.30
-
   pihole:
     container_name: pihole
     hostname: pihole
     image: pihole/pihole:latest
     ports:
-      - "8090:80"
       - "53:53/tcp"
       - "53:53/udp"
     networks:
@@ -32,10 +21,8 @@ services:
         ipv4_address: 10.0.0.20
     environment:
       TZ: "${TZ}"
-      DNSSEC: false
-      CUSTOM_CACHE_SIZE: 0
-      DNS1: unbound
-      DNS2: unbound
+      DNS1: 1.1.1.1
+      DNS2: 1.0.0.1
       WEBPASSWORD: "${WEBPASSWORD}"
       QUERY_LOGGING: false
     volumes:
