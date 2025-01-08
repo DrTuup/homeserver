@@ -25,7 +25,6 @@ services:
     restart: unless-stopped
     networks:
       proxy:
-        ipv4_address: 10.0.0.90
     labels:
       - traefik.enable=true
       - traefik.http.routers.wg-easy.rule=Host(`${DOMAIN_NAME}`)

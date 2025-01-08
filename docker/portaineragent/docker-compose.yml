@@ -1,9 +1,0 @@
-services:
-  agent:
-    network_mode: host
-    container_name: portainer_agent
-    restart: unless-stopped
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - '/var/lib/docker/volumes:/var/lib/docker/volumes'
-    image: 'portainer/agent:2.19.1'
