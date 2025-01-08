@@ -97,6 +97,8 @@ services:
     networks:
       proxy:
     restart: unless-stopped
+    ports:
+      - "32400:32400"
     environment:
       - TZ=${TZ}
       - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
