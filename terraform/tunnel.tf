@@ -21,9 +21,10 @@ resource "cloudflare_tunnel_config" "hydro" {
         no_tls_verify = true
       }
     }
+
     ingress_rule {
       hostname = "homeassistant.${var.cloudflare_zone_name}"
-      service  = "https://192.168.1.20"
+      service  = "https://192.168.1.30"
       origin_request {
         no_tls_verify = true
       }
