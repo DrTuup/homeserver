@@ -2,33 +2,14 @@ networks:
   proxy:
     name: proxy
     external: true
-  plexnet:
-    name: plexnet
-    driver: macvlan
-    driver_opts:
-      parent: bond0
-    ipam:
-      config:
-        - subnet: "192.168.1.0/24"
-          ip_range: "192.168.1.200/32"
-          gateway: "192.168.1.1"
 
 services:
   gluetun:
     container_name: gluetun
     image: qmcgaw/gluetun
     networks:
-      - proxy
+      proxy:
     restart: unless-stopped
-    ports:
-      - "6881:6881/tcp"
-      - "6881:6881/udp"
-      - "8080:8080"
-      - "7878:7878"
-      - "8989:8989"
-      - "9696:9696"
-      - "8191:8191"
-      - "6878:6878"
     cap_add:
       - NET_ADMIN
     environment:
@@ -114,13 +95,13 @@ services:
     container_name: plex
     hostname: plex
     networks:
-      plexnet:
-        ipv4_address: 192.168.1.200
+      proxy:
     restart: unless-stopped
+    ports:
+      - "32400:32400"
     environment:
       - TZ=${TZ}
       - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
-      - ADVERTISE_IP="http://192.168.1.200:32400/"
     volumes:
       - ${CONFIG_PATH}/plex:/config
       - ${CONFIG_PATH}/plex/transcode:/transcode
@@ -140,8 +121,6 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    ports:
-      - "5055:5055"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.overseerr.rule=Host(`${OVERSEERR_DOMAIN}`)"
@@ -157,7 +136,7 @@ services:
       - PUID=1000
       - PGID=1000
       - UMASK=002
-      - TZ=Europe/Amsterdam
+      - TZ=${TZ}
     volumes:
       - ${CONFIG_PATH}/prowlarr:/config
     labels:
@@ -181,10 +160,3 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
-
-  acelink:
-    container_name: acelink
-    image: blaiseio/acelink
-    platform: linux/amd64
-    network_mode: "service:gluetun"
-    restart: unless-stopped

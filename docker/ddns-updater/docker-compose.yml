@@ -8,7 +8,7 @@ services:
     image: qmcgaw/ddns-updater
     container_name: ddns-updater
     networks:
-      - proxy
+      proxy:
     volumes:
       - ${CONFIG_DIR}/ddns-updater:/updater/data
     environment:

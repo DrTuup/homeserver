@@ -8,7 +8,6 @@ networks:
 volumes:
   letsencrypt:
 
-
 services:
   traefik:
     image: traefik:latest
@@ -33,4 +32,3 @@ services:
       - ${CONFIG_PATH}/dynamic.yml:/config/dynamic.yml
     networks:
       proxy:
-        ipv4_address: 10.0.0.10
