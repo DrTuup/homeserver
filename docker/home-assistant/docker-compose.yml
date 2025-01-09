@@ -1,7 +1,7 @@
 services:
   homeassistant:
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    image: "homeassistant/home-assistant"
     volumes:
       - ${CONFIG_DIR}/home-assistant:/config
       - /etc/localtime:/etc/localtime:ro
