@@ -1,0 +1,32 @@
+volumes:
+  prometheus_data: {}
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ${CONFIG_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    ports:
+      - "9090:9090"
+    networks:
+      proxy:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prom.rule=Host(`${DOMAIN_NAME}`)
+      - traefik.http.routers.prom.tls=true
+      - traefik.http.routers.prom.tls.certresolver=cloudflare
+      - traefik.http.services.prom.loadbalancer.server.port=9090
