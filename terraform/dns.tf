@@ -21,7 +21,7 @@ resource "cloudflare_record" "overseerr" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content = cloudflare_tunnel.hydro.cname
+  value   = cloudflare_tunnel.hydro.cname
   zone_id = var.cloudflare_zone_id
 }
 
@@ -30,7 +30,7 @@ resource "cloudflare_record" "homeassistant" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content = cloudflare_tunnel.hydro.cname
+  value   = cloudflare_tunnel.hydro.cname
   zone_id = var.cloudflare_zone_id
 }
 
@@ -39,7 +39,7 @@ resource "cloudflare_record" "authentik" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  content = cloudflare_tunnel.hydro.cname
+  value   = cloudflare_tunnel.hydro.cname
   zone_id = var.cloudflare_zone_id
 }
 
@@ -48,7 +48,7 @@ resource "cloudflare_record" "email_spoofing_prevention_1" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=spf1 -all"
+  value   = "v=spf1 -all"
   zone_id = var.cloudflare_zone_id
 }
 
@@ -57,7 +57,7 @@ resource "cloudflare_record" "email_spoofing_prevention_2" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DKIM1; p="
+  value   = "v=DKIM1; p="
   zone_id = var.cloudflare_zone_id
 }
 
@@ -66,6 +66,6 @@ resource "cloudflare_record" "email_spoofing_prevention_3" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s; rua=mailto:claessensruben2812@gmail.com"
+  value   = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s; rua=mailto:claessensruben2812@gmail.com"
   zone_id = var.cloudflare_zone_id
 }
