@@ -34,6 +34,15 @@ resource "cloudflare_record" "homeassistant" {
   zone_id = var.cloudflare_zone_id
 }
 
+resource "cloudflare_record" "authentik" {
+  name    = "authentik"
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  value   = cloudflare_tunnel.hydro.cname
+  zone_id = var.cloudflare_zone_id
+}
+
 resource "cloudflare_record" "email_spoofing_prevention_1" {
   name    = "rubenclaessens.nl"
   proxied = false
