@@ -8,7 +8,7 @@ resource "cloudflare_ruleset" "zone_custom_firewall" {
   rules {
     action      = "block"
     description = "Block requests from outside the Netherlands"
-    expression  = "(http.request.full_uri contains \"overseerr.rubenclaessens.nl\" or http.request.full_uri contains \"homeassistant.rubenclaessens.nl\" or http.request.full_uri contains \"authentik.rubenclaessens.nl\") and ip.geoip.country ne \"NL\""
+    expression  = "(http.request.full_uri contains \"overseerr.rubenclaessens.nl\" or http.request.full_uri contains \"homeassistant.rubenclaessens.nl\") and ip.geoip.country ne \"NL\""
     enabled     = true
   }
 }
