@@ -19,3 +19,5 @@ certs/
 
 # Traefik dynamic configuration file
 dynamic.yml
+
+.ansible
