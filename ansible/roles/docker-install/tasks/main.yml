@@ -21,7 +21,6 @@
   ansible.builtin.debug:
     msg: "Machine {{ ansible_hostname }} needs a reboot: {{ reboot_required.stat.exists }}"
 
-- name: Reboot the machine when required
-  become: true
-  ansible.builtin.reboot:
-  when: reboot_required
+- name: Reboot the machine when required at 2AM
+  ansible.builtin.include_role:
+    name: reboot
