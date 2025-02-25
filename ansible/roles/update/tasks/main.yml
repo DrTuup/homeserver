@@ -24,4 +24,4 @@
 - name: Reboot the machine when required
   become: true
   ansible.builtin.reboot:
-  when: reboot_required
+  when: reboot_required.stat.exists
