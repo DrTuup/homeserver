@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     ports:
       - 631:631
+    env_file: .env
     volumes:
       - /var/run/dbus:/var/run/dbus
       - /var/run/cups:/var/run/cups
