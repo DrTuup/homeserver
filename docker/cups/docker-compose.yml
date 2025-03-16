@@ -1,0 +1,14 @@
+name: cups
+services:
+  cupsd:
+    container_name: cups
+    restart: unless-stopped
+    ports:
+      - 631:631
+    env_file: .env
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+      - /var/run/cups:/var/run/cups
+      - /etc/cups:/etc/cups
+    privileged: true
+    image: anujdatar/cups
