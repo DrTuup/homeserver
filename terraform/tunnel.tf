@@ -7,6 +7,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared" "rpi-01" {
   account_id    = var.cloudflare_account_id
   name          = "rpi-01"
   tunnel_secret = base64sha256(random_password.tunnel_secret.result)
+  config_src    = "cloudflare"
 }
 
 resource "cloudflare_zero_trust_tunnel_cloudflared_config" "rpi-01" {
