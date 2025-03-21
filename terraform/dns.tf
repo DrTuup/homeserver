@@ -60,3 +60,13 @@ resource "cloudflare_dns_record" "prevent_email_spoofing_3" {
   content = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s; rua=mailto:claessensruben2812@gmail.com"
   zone_id = var.cloudflare_zone_id
 }
+
+resource "cloudflare_dns_record" "mailgun_sending_records" {
+  for_each = var.mailgun_sending_records
+  name     = each.value.hostname
+  proxied  = false
+  ttl      = 1
+  type     = each.value.type
+  content  = each.value.content
+  zone_id  = var.cloudflare_zone_id
+}

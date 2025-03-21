@@ -15,3 +15,30 @@ variable "cloudflare_zone_name" {
   type        = string
   default     = "rubenclaessens.nl"
 }
+
+variable "mailgun_sending_records" {
+  description = "List of mailgun sending records"
+  type = map(object({
+    type     = string,
+    hostname = string
+    content  = string
+    })
+  )
+  default = {
+    mailgunorg = {
+      type     = "TXT"
+      hostname = "mail.rubenclaessens.nl"
+      content  = "v=spf1 include:mailgun.org ~all"
+    },
+    domainkey1 = {
+      type     = "CNAME"
+      hostname = "pdk1._domainkey.mail.rubenclaessens.nl"
+      content  = "pdk1._domainkey.f5d8b.dkim2.eu.mgsend.org"
+    },
+    domainkey2 = {
+      type     = "CNAME"
+      hostname = "pdk2._domainkey.mail.rubenclaessens.nl"
+      content  = "pdk2._domainkey.f5d8b.dkim2.eu.mgsend.org"
+    }
+  }
+}
