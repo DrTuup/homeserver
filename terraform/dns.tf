@@ -62,7 +62,7 @@ resource "cloudflare_dns_record" "prevent_email_spoofing_3" {
 }
 
 resource "cloudflare_dns_record" "mailgun_sending_records" {
-  for_each = var.mailgun_sending_records
+  for_each = var.mailgun_records
   name     = each.value.hostname
   proxied  = false
   ttl      = 1
