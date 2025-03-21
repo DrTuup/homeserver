@@ -3,35 +3,32 @@ resource "random_password" "tunnel_secret" {
   special = true
 }
 
-resource "cloudflare_tunnel" "hydro" {
-  account_id = var.cloudflare_account_id
-  name       = "hydro"
-  secret     = base64sha256(random_password.tunnel_secret.result)
+resource "cloudflare_zero_trust_tunnel_cloudflared" "rpi-01" {
+  account_id    = var.cloudflare_account_id
+  name          = "rpi-01"
+  tunnel_secret = base64sha256(random_password.tunnel_secret.result)
 }
 
-resource "cloudflare_tunnel_config" "hydro" {
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "rpi-01" {
   account_id = var.cloudflare_account_id
-  tunnel_id  = cloudflare_tunnel.hydro.id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.rpi-01.id
 
-  config {
-    ingress_rule {
+  config = {
+    ingress = [{
       hostname = "overseerr.${var.cloudflare_zone_name}"
       service  = "https://192.168.1.30"
-      origin_request {
+      origin_request = {
         no_tls_verify = true
       }
-    }
-
-    ingress_rule {
+      }, {
       hostname = "homeassistant.${var.cloudflare_zone_name}"
       service  = "https://192.168.1.30"
-      origin_request {
+      origin_request = {
         no_tls_verify = true
       }
-    }
-
-    ingress_rule {
-      service = "http_status:404"
-    }
+      },
+      {
+        service = "http_status:404"
+    }]
   }
 }
