@@ -69,4 +69,5 @@ resource "cloudflare_dns_record" "mailgun_sending_records" {
   type     = each.value.type
   content  = each.value.content
   zone_id  = var.cloudflare_zone_id
+  priority = 10
 }

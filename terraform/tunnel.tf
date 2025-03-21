@@ -13,6 +13,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared" "rpi-01" {
 resource "cloudflare_zero_trust_tunnel_cloudflared_config" "rpi-01" {
   account_id = var.cloudflare_account_id
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.rpi-01.id
+  source     = "cloudflare"
 
   config = {
     ingress = [{
