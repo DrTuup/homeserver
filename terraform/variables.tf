@@ -55,5 +55,11 @@ variable "mailgun_records" {
       hostname = "email.mail.rubenclaessens.nl"
       content  = "eu.mailgun.org"
     }
+    auth_dmarc = {
+      type     = "TXT"
+      hostname = "_dmarc.mail.rubenclaessens.nl"
+      content  = "v=DMARC1; p=none; pct=100; fo=1; ri=3600; rua=mailto:f6891040@dmarc.mailgun.org,mailto:d54f4589@inbox.ondmarc.com; ruf=mailto:f6891040@dmarc.mailgun.org,mailto:d54f4589@inbox.ondmarc.com;"
+
+    }
   }
 }
